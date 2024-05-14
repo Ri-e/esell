@@ -1,0 +1,73 @@
+{% extends "library/base.html" %}
+{% block content %}
+<style>
+    .wrapper{
+        display: flex;
+        padding-top: 2rem;
+        justify-content: center;
+        flex-direction: column;
+        background-color: red;
+    }
+    .de{
+        width: 500px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+    }
+    .top{
+        margin-top: 2rem;
+        display: flex;
+        justify-content: center;
+    }
+    .right{
+        margin-left: 2rem;
+    }
+  
+    h3{
+        width: 500px;
+
+    }
+    
+    .button{
+        height: 2rem;
+        width: 2rem;
+    }
+    .fg{
+        height: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+</style>
+
+<div class="top">
+    <img src="{{product.images.url}}" width="470px"></img>
+    <div class="right">
+        <h3>{{product.product_name}}</h3>
+        <hr>
+        <div class="ss">
+            <div>
+                <h4>Price:- ₹{{product.price}}</h4>
+                <h6>Inc. of all taxes</h6>
+                
+            </div>
+            <button class="btn btn-success fg">Buy Now</button>
+        </div>
+        <hr>
+        <h6>No. of customers bought and reviewed :- {{buyers}}</h6>
+        <h6>Colors Available :- {{product.color_available}}</h6>
+        <h6>Brand :- {{product.brand}}</h6>
+        <h6>Model Name :- {{product.modelname}}</h6>
+        <h6>Operting System :- {{product.opertingsys}}</h6>
+        <h6>Cellular Technology :- {{product.cellulartech}}</h6>
+        <h6>Posted by :- {{product.user}}</h6>
+
+    </div>
+    
+</div>
+
+
+    
+{% endblock %}
