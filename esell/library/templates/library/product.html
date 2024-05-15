@@ -16,7 +16,7 @@
         
     }
     .top{
-        margin-top: 2rem;
+        margin-top: 1rem;
         display: flex;
         justify-content: center;
     }
@@ -40,6 +40,10 @@
         align-items: center;
 
     }
+    .last{
+        display: flex;
+        justify-content: space-between;
+    }
 </style>
 
 <div class="top">
@@ -62,7 +66,23 @@
         <h6>Model Name :- {{product.modelname}}</h6>
         <h6>Operting System :- {{product.opertingsys}}</h6>
         <h6>Cellular Technology :- {{product.cellulartech}}</h6>
-        <h6>Posted by :- {{product.user}}</h6>
+        <div class="last">
+            <h6>Posted by :- {{product.user}}</h6>
+            {% if request.user == product.user %}
+
+            <div>
+                <button class="btn btn-outline-success">
+                    <a class="nav-link" href="{% url 'update' product.id %}">Update Product</a> 
+    
+                </button>
+                <button class="btn btn-outline-danger">
+                    <a class="nav-link" href="{% url 'delete' product.id %}">Delete Product</a> 
+    
+                </button>
+            </div>
+            {% endif %}
+            
+        </div>
 
     </div>
     

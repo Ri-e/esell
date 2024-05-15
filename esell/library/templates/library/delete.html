@@ -1,0 +1,35 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+<style>
+    .ho{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 60vh;
+    }
+    
+</style>
+<div class="ho">
+    <form action="" method="POST" class="delete">
+        {% csrf_token %}
+        <h5>Are you sure you want to delete the Product?</h5>
+        <div class="but">
+            <button class="btn btn-outline-danger me-2" type="submit">
+                Confirm
+                
+            </button>
+            
+            <button class="btn btn-outline-success">
+                <a class="nav-link" href="{{request.META.HTTP_REFERER}}">Go Back</a>
+        
+            </button>
+        </div>
+        
+    </form>
+    
+    
+</div>
+
+
+{% endblock %}

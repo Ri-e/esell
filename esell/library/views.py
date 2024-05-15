@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 
 def index(request):
-    products = Product.objects.all() 
+    products = Product.objects.all().order_by('-created') 
     return render(request, "library/home.html",{'products' : products})
 
 def product(request, pk):
@@ -71,3 +71,19 @@ def registerPage(request):
         else:
             messages.error(request, "Something went error")
     return render(request, 'library/login_register.html', {'form' : form})
+def delete(request, pk):
+    product= Product.objects.get(id=pk)
+    if request.method == "POST":
+        product.delete()
+        return redirect('home')
+        
+    return render(request, 'library/delete.html')
+def update(request, pk):
+    product = Product.objects.get(id=pk)
+    form = createForm(instance=product)
+    if request.method == "POST":
+        form =  createForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('product', product.id)
+    return render(request, 'library/create.html', {'form' : form})
