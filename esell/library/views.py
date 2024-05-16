@@ -1,17 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import Product
-from .forms import createForm
+from .models import Product, Category
+from .forms import createForm, createCats
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models import Q
 
 def index(request):
-    products = Product.objects.all().order_by('-created') 
-    return render(request, "library/home.html",{'products' : products})
+    
+    q = request.GET.get('q') if request.GET.get('q') != None else ""
+    products = Product.objects.filter(Q(category__category__icontains=q) | Q(user__username__icontains=q) | Q(brand__icontains=q) | Q(modelname__icontains=q) | Q(opertingsys__icontains=q) | Q(cellulartech__icontains=q) ).order_by('-created') 
+    category = Category.objects.all()
+    return render(request, "library/home.html",{'products' : products, 'category':category})
 
 def product(request, pk):
     product = Product.objects.get(id=pk)
@@ -71,8 +75,11 @@ def registerPage(request):
         else:
             messages.error(request, "Something went error")
     return render(request, 'library/login_register.html', {'form' : form})
+    
 def delete(request, pk):
     product= Product.objects.get(id=pk)
+    if request.user != product.user:
+        return redirect('home') 
     if request.method == "POST":
         product.delete()
         return redirect('home')
@@ -80,6 +87,9 @@ def delete(request, pk):
     return render(request, 'library/delete.html')
 def update(request, pk):
     product = Product.objects.get(id=pk)
+    if request.user != product.user:
+        return redirect('home') 
+
     form = createForm(instance=product)
     if request.method == "POST":
         form =  createForm(request.POST, instance=product)
@@ -87,3 +97,11 @@ def update(request, pk):
             form.save()
             return redirect('product', product.id)
     return render(request, 'library/create.html', {'form' : form})
+def createCat(request):
+    form = createCats()
+    if request.method == 'POST':
+        form = createCats(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    return render(request, 'library/createCat.html', {'form' : form})

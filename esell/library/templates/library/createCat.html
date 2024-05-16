@@ -1,0 +1,15 @@
+{% extends 'library/base.html' %} {% block content %}
+<style>
+  .cat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+</style>
+<form action="" method="POST" class="cat">
+  {% csrf_token %} {{form}}
+  <button type="submit" class="btn btn-outline-success">Create</button>
+</form>
+
+{% endblock %}

@@ -1,35 +1,69 @@
 {% extends 'library/base.html' %} {% block content %}
 <style>
   .holder {
-    padding: 2rem;
+    padding-left: 2rem;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     row-gap: 2rem;
   }
   .sidebar {
     background-color: gray;
+    width: 100%;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    padding: 2rem;
   }
   .title {
     height: 2.5rem;
     margin-bottom: 0.5rem;
     overflow: hidden;
   }
+  .bigboy {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+  }
+  ul {
+    list-style-type: none;
+  }
+  .card {
+    height: 23rem;
+  }
 </style>
-<div class="holder">
-  {% for i in products %}
 
-  <div class="card" style="width: 15rem">
-    <img src="{{i.images.url}}" class="card-img-top" />
-    <div class="card-body">
-      <div class="title">
-        <h6 class="card-title">{{i.product_name|slice:":50"}}...</h6>
-      </div>
-      <a href="{% url 'product' i.id %}" class="btn btn-outline-success"
-        >Buy Now</a
-      >
-    </div>
+<div class="bigboy">
+  <div class="sidebar bg-body-tertiary">
+    <h5>Categories</h5>
+    <br />
+    <ul>
+      <li>
+        <a class="nav-link" href="{% url 'home' %}">All</a>
+      </li>
+      {% for i in category %}
+      <li class="lu">
+        <a href="{% url 'home' %}?q={{i.category}}" class="nav-link"
+          >{{i.category}}</a
+        >
+      </li>
+      {% endfor %}
+    </ul>
   </div>
+  <div class="holder">
+    {% for i in products %}
+    <div class="card" style="width: 15rem">
+      <img src="{{i.images.url}}" class="card-img-top" />
+      <div class="card-body">
+        <div class="title">
+          <h6 class="card-title">{{i.product_name|slice:":50"}}...</h6>
+        </div>
+        <a href="{% url 'product' i.id %}" class="btn btn-outline-success"
+          >Buy Now</a
+        >
+      </div>
+    </div>
 
-  {% endfor %}
+    {% endfor %}
+  </div>
 </div>
+
 {% endblock %}
