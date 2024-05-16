@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import Product, Category
+from .models import Product, Category, Comment
 from .forms import createForm, createCats
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -20,8 +20,10 @@ def index(request):
 def product(request, pk):
     product = Product.objects.get(id=pk)
     buyers = product.buyers.count()
+    review = product.comment_set.all()
+    
 
-    return render(request, "library/product.html", {'product' : product, 'buyers' : buyers})
+    return render(request, "library/product.html", {'product' : product, 'buyers' : buyers, 'review' : review})
 def create(request):
     form = createForm()
     if request.method == 'POST':

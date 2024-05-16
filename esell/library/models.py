@@ -5,7 +5,7 @@ class Category(models.Model):
     category = models.CharField(max_length=500)
 
     def __str__(self):
-        return self.category[0:25] + "..."
+        return self.category[0:25]
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     product_name = models.CharField(max_length=2000)
@@ -30,5 +30,6 @@ class Comment(models.Model):
     message = models.CharField(max_length=200)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+    stars = models.IntegerField(default=0)
     def __str__(self):
         return self.message[0:25] + "..."

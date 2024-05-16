@@ -1,24 +1,24 @@
 {% extends "library/base.html" %}
 {% block content %}
 <style>
-    .wrapper{
+    
+    .holder{
         display: flex;
-        padding-top: 2rem;
+        height: auto;
+        width: 100%;
         justify-content: center;
         flex-direction: column;
-        background-color: red;
+        align-items: center;
+        margin-bottom: 2rem;
     }
     .de{
         width: 500px;
         display: flex;
-        justify-content: center;
-        align-items: center;
         
     }
     .top{
         margin-top: 1rem;
         display: flex;
-        justify-content: center;
     }
     .right{
         margin-left: 2rem;
@@ -44,49 +44,82 @@
         display: flex;
         justify-content: space-between;
     }
-</style>
+    .bottom{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        padding-left: 10rem;
+        padding-right: 10rem;
 
-<div class="top">
-    <img src="{{product.images.url}}" width="470px"></img>
-    <div class="right">
-        <h3>{{product.product_name}}</h3>
-        <hr>
-        <div class="ss">
-            <div>
-                <h4>Price:- ₹{{product.price}}</h4>
-                <h6>Inc. of all taxes</h6>
+    }
+    .rev{
+        padding: 1rem;
+    }
+</style>
+<div class="holder">
+    <div class="top">
+        <img src="{{product.images.url}}" width="470px"></img>
+        <div class="right">
+            <h3>{{product.product_name}}</h3>
+            <hr>
+            <div class="ss">
+                <div>
+                    <h4>Price:- ₹{{product.price}}</h4>
+                    <h6>Inc. of all taxes</h6>
+                    
+                </div>
+                <button class="btn btn-success fg">Buy Now</button>
+            </div>
+            <hr>
+            <h6>No. of customers bought and reviewed :- {{buyers}}</h6>
+            <h6>Colors Available :- {{product.color_available}}</h6>
+            <h6>Brand :- {{product.brand}}</h6>
+            <h6>Model Name :- {{product.modelname}}</h6>
+            <h6>Operting System :- {{product.opertingsys}}</h6>
+            <h6>Cellular Technology :- {{product.cellulartech}}</h6>
+            <div class="last">
+                <h6>Posted by :- {{product.user}}</h6>
+                {% if request.user == product.user %}
+    
+                <div>
+                    <button class="btn btn-outline-success">
+                        <a class="nav-link" href="{% url 'update' product.id %}">Update Product</a> 
+        
+                    </button>
+                    <button class="btn btn-outline-danger">
+                        <a class="nav-link" href="{% url 'delete' product.id %}">Delete Product</a> 
+        
+                    </button>
+                </div>
+                {% endif %}
                 
             </div>
-            <button class="btn btn-success fg">Buy Now</button>
-        </div>
-        <hr>
-        <h6>No. of customers bought and reviewed :- {{buyers}}</h6>
-        <h6>Colors Available :- {{product.color_available}}</h6>
-        <h6>Brand :- {{product.brand}}</h6>
-        <h6>Model Name :- {{product.modelname}}</h6>
-        <h6>Operting System :- {{product.opertingsys}}</h6>
-        <h6>Cellular Technology :- {{product.cellulartech}}</h6>
-        <div class="last">
-            <h6>Posted by :- {{product.user}}</h6>
-            {% if request.user == product.user %}
-
-            <div>
-                <button class="btn btn-outline-success">
-                    <a class="nav-link" href="{% url 'update' product.id %}">Update Product</a> 
     
-                </button>
-                <button class="btn btn-outline-danger">
-                    <a class="nav-link" href="{% url 'delete' product.id %}">Delete Product</a> 
-    
-                </button>
-            </div>
-            {% endif %}
-            
         </div>
-
+        
     </div>
+
+    <br>
+    <div class="bottom">
+        <div>
+            <h1>Reviews</h1>
+            <hr>
+
+        </div>
+        <div>
+            {% for i in review %}
+            <div class="border rev">
+                <h6>@{{i.user}} {{i.created|timesince}} ago gave {{i.stars}} stars</h6>
+                <br>
+                <h6>{{i.message}}</h6>
+            </div>
+            
+            {% endfor %}
+        </div>
     
+    </div>
 </div>
+
 
 
     
